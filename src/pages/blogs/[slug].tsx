@@ -29,6 +29,7 @@ export async function getStaticProps({ params }: any) {
 
   return {
     props: { blog: items[0] },
+    revalidate: 1,
   };
 }
 
@@ -48,8 +49,11 @@ export default function BlogDetail({ blog }: any) {
         <div className="flex gap-5 my-2 text-sm">
           <span className="italic">{`Date: ${updateDate.split("T")[0]} /`}</span>
           <span>
-            {tag.map((tagItem: string) => (
-              <span className="underline md:underline-offset-4 mx-1 decoration-sky-500 italic">{`${tagItem} `}</span>
+            {tag.map((tagItem: string, index: number) => (
+              <span
+                key={`tag_item_${index}_${tagItem}`}
+                className="underline md:underline-offset-4 mx-1 decoration-sky-500 italic"
+              >{`${tagItem} `}</span>
             ))}
           </span>
           <span className="italic">{`/ Author: ${author}`}</span>

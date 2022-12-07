@@ -1,7 +1,7 @@
 import BlogCard from "../../components/BlogCard";
 import useGetData from "../../utils/useGetData";
 
-const index = () => {
+const BlogList = () => {
   const { data, isLoading, error } = useGetData("blog");
   console.log(data);
 
@@ -14,4 +14,4 @@ const index = () => {
   );
 };
 
-export default index;
+export default BlogList;

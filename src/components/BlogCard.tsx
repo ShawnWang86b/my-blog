@@ -16,9 +16,9 @@ const BlogCard = ({ item }: any) => {
         <div className="flex gap-5 my-2 text-sm">
           <span className="italic">{`Date: ${updateDate.split("T")[0]} /`}</span>
           <span>
-            {tag.map((tagItem: string) => (
+            {tag.map((tagItem: string, index: number) => (
               <span
-                key={tag.index}
+                key={`tag_item_${index}_${tagItem}`}
                 className="underline md:underline-offset-4 mx-1 decoration-sky-500 italic"
               >{`${tagItem} `}</span>
             ))}
