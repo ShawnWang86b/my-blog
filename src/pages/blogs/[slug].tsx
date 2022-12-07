@@ -18,7 +18,7 @@ export const getStaticPaths = async () => {
     };
   });
 
-  return { paths, fallback: false };
+  return { paths, fallback: true };
 };
 
 export async function getStaticProps({ params }: any) {
@@ -35,6 +35,7 @@ export async function getStaticProps({ params }: any) {
 
 export default function BlogDetail({ blog }: any) {
   console.log(blog);
+  if (!blog) return <div>loading</div>;
   const { updateDate, tag, Title, subTitle, author, image, content } = blog.fields;
   return (
     <div className="flex justify-center">
