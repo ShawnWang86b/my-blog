@@ -1,42 +1,38 @@
 import Link from "next/link";
 import Image from "next/image";
+import moment from "moment";
 
 const BlogCard = ({ item }: any) => {
   const { updateDate, tag, Title, subTitle, author, image, slug } = item.fields;
   return (
-    <div className="flex justify-center">
-      <div className="flex flex-col mx-20 items-center my-10 p-2 w-1/2">
-        <Image
-          src={"https:" + image.fields.file.url}
-          alt="blogs picture"
-          width={image.fields.file.details.image.width}
-          height={image.fields.file.details.image.height}
-          className="rounded-xl shadow-lg"
-        />
-        <div className="flex gap-5 my-2 text-sm">
-          <span className="italic">{`Date: ${updateDate.split("T")[0]} /`}</span>
-          <span>
-            {tag.map((tagItem: string, index: number) => (
-              <span
-                key={`tag_item_${index}_${tagItem}`}
-                className="underline md:underline-offset-4 mx-1 decoration-sky-500 italic"
-              >{`${tagItem} `}</span>
-            ))}
-          </span>
-          <span className="italic">{`/ Author: ${author}`}</span>
+    <Link href={"/blogs/" + slug}>
+      <div className="bg-white hover:scale-105 hover:shadow-lg transition duration-500 w-80 h-80 ">
+        <div className="relative w-80 h-40">
+          <Image
+            src={"https:" + image.fields.file.url}
+            alt="blog image"
+            layout="fill"
+            className="rounded-sm shadow-sm"
+          />
         </div>
-        <p className="text-xl">{Title}</p>
-        <p className="text-sm text-gray-400 italic">{subTitle}</p>
-        <div>
-          <Link href={"/blogs/" + slug}>
-            <button className="text-white bg-cyan-500 hover:bg-cyan-600 w-24 p-2 my-5 rounded-xl shadow-lg">
-              Read More
-            </button>
-          </Link>
+        <div className="px-5 py-3">
+          <div className="flex gap-5 my-2 text-sm">
+            <span>
+              {tag.map((tagItem: string, index: number) => (
+                <span key={`tag_item_${index}_${tagItem}`} className="">{`${tagItem} `}</span>
+              ))}
+            </span>
+          </div>
+          <p className="text-xl">{Title}</p>
+          <p className="text-sm text-gray-400 italic">{subTitle}</p>
+          {/* Card Bottom */}
+          <div>
+            <span className="">{moment().format("MMMM Do, YYYY")}</span>
+            <span className="">${author}</span>
+          </div>
         </div>
-        <span className="w-full py-px bg-gray-200"></span>
       </div>
-    </div>
+    </Link>
   );
 };
 
