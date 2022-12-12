@@ -1,7 +1,55 @@
 import { createClient } from "contentful";
 import Image from "next/image";
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
+import { BLOCKS, INLINES } from "@contentful/rich-text-types";
+const renderOptions = {
+  renderNode: {
+    [INLINES.EMBEDDED_ENTRY]: (node, children) => {
+      // target the contentType of the EMBEDDED_ENTRY to display as you need
+      if (node.data.target.sys.contentType.sys.id === "blogPost") {
+        return (
+          <a href={`/blog/${node.data.target.fields.slug}`}> {node.data.target.fields.title}</a>
+        );
+      }
+    },
+    [BLOCKS.EMBEDDED_ENTRY]: (node, children) => {
+      // target the contentType of the EMBEDDED_ENTRY to display as you need
+      if (node.data.target.sys.contentType.sys.id === "codeBlock") {
+        return (
+          <pre>
+            <code>{node.data.target.fields.code}</code>
+          </pre>
+        );
+      }
 
+      if (node.data.target.sys.contentType.sys.id === "videoEmbed") {
+        return (
+          <iframe
+            src={node.data.target.fields.embedUrl}
+            height="100%"
+            width="100%"
+            frameBorder="0"
+            scrolling="no"
+            title={node.data.target.fields.title}
+            allowFullScreen={true}
+          />
+        );
+      }
+    },
+
+    [BLOCKS.EMBEDDED_ASSET]: (node, children) => {
+      // render the EMBEDDED_ASSET as you need
+      return (
+        <img
+          src={`https://${node.data.target.fields.file.url}`}
+          height={node.data.target.fields.file.details.image.height}
+          width={node.data.target.fields.file.details.image.width}
+          alt={node.data.target.fields.description}
+        />
+      );
+    },
+  },
+};
 const client = createClient({
   space: process.env.NEXT_PUBLIC_CONTENTFUL_SPACE_ID || "",
   accessToken: process.env.NEXT_PUBLIC_CONTENTFUL_ACCESS_KEY || "",
@@ -61,7 +109,7 @@ export default function BlogDetail({ blog }: any) {
         </div>
         <p className="text-xl">{Title}</p>
         <p className="text-sm text-gray-400 italic">{subTitle}</p>
-        <div className="my-20">{documentToReactComponents(content)}</div>
+        <div className="my-20">{documentToReactComponents(content, renderOptions)}</div>
       </div>
     </div>
   );
