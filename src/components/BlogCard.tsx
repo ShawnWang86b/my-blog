@@ -15,7 +15,6 @@ const BlogCard = ({ item }: any) => {
             className="rounded-sm shadow-sm"
           />
         </div>
-        {/* <div className="flex flex-col justify-between"> */}
         <div className="px-5 pt-4 relative h-24">
           <span className="text-sky-500 text-xs font-medium">{category}</span>
           <p className=" ">{Title}</p>
@@ -28,7 +27,6 @@ const BlogCard = ({ item }: any) => {
           <span className="text-xs text-gray-600">{author}</span>
         </div>
       </div>
-      {/* </div> */}
     </Link>
   );
 };

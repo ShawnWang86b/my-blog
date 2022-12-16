@@ -2,6 +2,8 @@ import { createClient } from "contentful";
 import Image from "next/image";
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
 import { BLOCKS, INLINES } from "@contentful/rich-text-types";
+import moment from "moment";
+
 const renderOptions = {
   renderNode: {
     [INLINES.EMBEDDED_ENTRY]: (node: any, children: any) => {
@@ -40,12 +42,14 @@ const renderOptions = {
     [BLOCKS.EMBEDDED_ASSET]: (node: any, children: any) => {
       // render the EMBEDDED_ASSET as you need
       return (
-        <img
-          src={`https://${node.data.target.fields.file.url}`}
-          height={node.data.target.fields.file.details.image.height}
-          width={node.data.target.fields.file.details.image.width}
-          alt={node.data.target.fields.description}
-        />
+        <div className="p-[1px] shadow-xl m-2">
+          <img
+            src={`https://${node.data.target.fields.file.url}`}
+            height={node.data.target.fields.file.details.image.height}
+            width={node.data.target.fields.file.details.image.width}
+            alt={node.data.target.fields.description}
+          />
+        </div>
       );
     },
   },
@@ -84,32 +88,55 @@ export async function getStaticProps({ params }: any) {
 export default function BlogDetail({ blog }: any) {
   console.log(blog);
   if (!blog) return <div>loading</div>;
-  const { updateDate, tag, Title, subTitle, author, image, content } = blog.fields;
+  const { updateDate, tag, category, Title, subTitle, author, image, content } = blog.fields;
   return (
-    <div className="flex justify-center">
-      <div className="flex flex-col mx-20 items-center my-10 p-2 w-1/2">
-        <Image
-          src={"https:" + image.fields.file.url}
-          alt="blogs picture"
-          width={image.fields.file.details.image.width}
-          height={image.fields.file.details.image.height}
-          className="rounded-xl shadow-lg"
-        />
-        <div className="flex gap-5 my-2 text-sm">
-          <span className="italic">{`Date: ${updateDate.split("T")[0]} /`}</span>
-          <span>
-            {tag.map((tagItem: string, index: number) => (
-              <span
-                key={`tag_item_${index}_${tagItem}`}
-                className="underline md:underline-offset-4 mx-1 decoration-sky-500 italic"
-              >{`${tagItem} `}</span>
-            ))}
-          </span>
-          <span className="italic">{`/ Author: ${author}`}</span>
+    <div className="grid grid-cols-3 max-w-4xl m-auto">
+      <div className="flex flex-col p-2 col-span-2">
+        <p className="text-5xl py-20">{Title}</p>
+        <div className="relative h-80">
+          <Image
+            src={"https:" + image.fields.file.url}
+            alt="blogs picture"
+            layout="fill"
+            className="shadow-lg"
+          />
         </div>
-        <p className="text-xl">{Title}</p>
-        <p className="text-sm text-gray-400 italic">{subTitle}</p>
-        <div className="my-20">{documentToReactComponents(content, renderOptions)}</div>
+
+        <p className="text-xs text-gray-600 italic p-3">{subTitle}</p>
+        <div className="my-14">{documentToReactComponents(content, renderOptions)}</div>
+      </div>
+
+      {/* 右边*/}
+      <div className="col-span-1 flex flex-col px-10 pt-64">
+        <div className="flex flex-col py-2">
+          <span className="text-xs py-2">PUBLISHED</span>
+          <span className="text-xs text-gray-600">
+            {moment(updateDate).format("MMMM Do, YYYY")}
+          </span>
+        </div>
+        <div className="flex flex-col py-2">
+          <span className="text-xs py-2">AUTHOR</span>
+          <span className="text-xs text-sky-600 cursor-pointer hover:underline hover:decoration-sky-500 underline-offset-2">
+            {author}
+          </span>
+        </div>
+        <div className="flex flex-col py-2">
+          <span className="text-xs py-2">CATEGORY</span>
+          <span className="text-xs text-sky-600 cursor-pointer hover:underline hover:decoration-sky-500 underline-offset-2">
+            {category}
+          </span>
+        </div>
+        <div>
+          <span className="flex flex-col text-xs py-2">TOPICS</span>
+          {tag.map((item: string, index: number) => (
+            <span
+              key={index}
+              className="bg-[#F2F8FB] p-1 rounded-full text-xs text-gray-600 hover:border-[1px] hover:border-[#464E5B]"
+            >
+              {item}
+            </span>
+          ))}
+        </div>
       </div>
     </div>
   );
