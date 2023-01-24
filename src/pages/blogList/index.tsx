@@ -27,11 +27,11 @@ const BlogList = () => {
   }, []);
 
   if (isLoading) {
-    return "Loading";
+    return <div>Loading</div>;
   }
 
   if (error) {
-    return "Error";
+    return <div>Error</div>;
   }
 
   return (
