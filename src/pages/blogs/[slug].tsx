@@ -18,7 +18,7 @@ const renderOptions = {
       // target the contentType of the EMBEDDED_ENTRY to display as you need
       if (node.data.target.sys.contentType.sys.id === "codeBlock") {
         return (
-          <pre>
+          <pre className="bg-indigo-500">
             <code>{node.data.target.fields.code}</code>
           </pre>
         );
@@ -103,7 +103,9 @@ export default function BlogDetail({ blog }: any) {
         </div>
 
         <p className="text-xs text-gray-600 italic p-3">{subTitle}</p>
-        <div className="my-14">{documentToReactComponents(content, renderOptions)}</div>
+        <div className="my-14 text-lg leading-loose">
+          {documentToReactComponents(content, renderOptions)}
+        </div>
       </div>
 
       {/* 右边*/}
@@ -127,11 +129,11 @@ export default function BlogDetail({ blog }: any) {
           </span>
         </div>
         <div>
-          <span className="flex flex-col text-xs py-2">TOPICS</span>
+          <span className="flex flex-col text-xs py-2 ">TOPICS</span>
           {tag.map((item: string, index: number) => (
             <span
               key={index}
-              className="bg-[#F2F8FB] p-1 rounded-full text-xs text-gray-600 hover:border-[1px] hover:border-[#464E5B]"
+              className="bg-[#F2F8FB] p-1 cursor-pointer rounded-full text-xs text-gray-600 hover:border-[1px] hover:border-[#464E5B]"
             >
               {item}
             </span>

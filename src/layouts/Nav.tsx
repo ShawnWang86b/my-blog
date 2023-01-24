@@ -12,23 +12,8 @@ const Nav = () => {
         </div>
         <div className="flex gap-10 items-center text-[#2A3039]">
           <div>
-            <button className="hover:text-blue-700" onClick={() => router.push("/")}>
-              Project
-            </button>
-          </div>
-          <div>
-            <button className="hover:text-blue-700" onClick={() => router.push("/")}>
-              Use Cases
-            </button>
-          </div>
-          <div>
             <button className="hover:text-blue-700" onClick={() => router.push("/blogList")}>
-              Blog
-            </button>
-          </div>
-          <div>
-            <button className="hover:text-blue-700" onClick={() => router.push("/blogList")}>
-              Resources
+              Project Info
             </button>
           </div>
         </div>
