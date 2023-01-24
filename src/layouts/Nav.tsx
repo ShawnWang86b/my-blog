@@ -13,7 +13,7 @@ const Nav = () => {
         <div className="flex gap-10 items-center text-[#2A3039]">
           <div>
             <button className="hover:text-blue-700" onClick={() => router.push("/blogList")}>
-              Project Info
+              Project proposal
             </button>
           </div>
         </div>
